@@ -16,6 +16,25 @@
   width: 400px;
 }
 
+.spinner-parent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.8;
+  background-color: rgba(0, 0, 0, 0.61);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 9999;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
 /* common styling */
 
 .card-title{ 

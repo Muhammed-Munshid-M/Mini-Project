@@ -10,10 +10,11 @@ function Register() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const onFinish = async(values) => {
-       try {
-        dispatch(showLoading())
-        const response = await axios.post('/api/user/register',values)
-        dispatch(hideLoading())
+        try {
+            dispatch(showLoading)
+            const response = await axios.post("/api/user/register",values)
+            console.log('Hiii'+response);
+            dispatch(hideLoading)
         if (response.data.success) {
             toast.success(response.data.message)
             toast("Redirecting to login page")
@@ -22,7 +23,7 @@ function Register() {
             toast.error(response.data.message)
         }
        } catch (error) {
-        dispatch(hideLoading())
+        dispatch(hideLoading)
         toast.success("Something went wrong")
        }
     }

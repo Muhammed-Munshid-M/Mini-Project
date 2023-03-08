@@ -26,7 +26,8 @@ function App() {
            element={
            <Routerprotected>
             <Home/>
-          </Routerprotected>} />
+          </Routerprotected>
+          } />
         </Routes>
       </BrowserRouter>
     </div>

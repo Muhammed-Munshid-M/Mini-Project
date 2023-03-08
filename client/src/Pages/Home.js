@@ -5,14 +5,14 @@ import Layout  from '../components/Layout'
 function Home() {
     const getData=async()=>{
         try {
-            const token = localStorage.getItem("token")
+            const token = localStorage.getItem('token')
             const response = await axios.post('/api/user/get-user-info-by-id', {} ,
             {
                 headers : {
-                    Authorization :`Bearer ${token} `
+                    Authorization :`Bearer ${token}`
                 }
             })
-            console.log(response.data);
+            console.log('response:'+response.data);
         } catch (error) {
             console.log(error);
         }

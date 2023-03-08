@@ -1,41 +1,50 @@
-import axios from 'axios'
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Navigate, useNavigate } from 'react-router-dom'
-import { setUser } from '../redux/userSlice'
-
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { setUser } from "../redux/userSlice";
+import { hideLoading, showLoading } from "../redux/alertsSlice";
 function Routerprotected(props) {
-    const {user} = useSelector((state)=> state.user)
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const getUser = async()=>{
-        try {
-            const response = await axios.post('/api/user/get-user-info-by-id',{token : localStorage.getItem('token')},{
-                headers: {
-                    Authorization : `Bearer ${localStorage.getItem("token")} `
-                }
-            })
-            if (response.data.sucess) {
-                dispatch(setUser(response.data.data))
-            } else {
-                localStorage.clear()
-                navigate('/login')
-            }
-        } catch (error) {
-            navigate('/login')
+  const { user } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const getUser = async () => {
+    try {
+      dispatch(showLoading());
+      const token = localStorage.getItem('token')
+      const response = await axios.post(
+        "/api/user/get-user-info-by-id",
+        { token: localStorage.getItem("token") },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
         }
+      );
+      dispatch(hideLoading());
+      if (response.data.success) {
+        dispatch(setUser(response.data.data));
+      } else {
+        localStorage.clear()
+        navigate("/login");
+      }
+    } catch (error) {
+      localStorage.clear()
+      dispatch(hideLoading());
+      navigate("/login");
     }
+  };
+  useEffect(() => {
+    if (!user) {
+      getUser();
+    }
+  }, [user]);
 
-    useEffect(()=>{
-        if (!user) {
-            getUser()
-        }
-    },[])
-    if(localStorage.getItem('token')) {
-        return props.children
-    } else {
-        return <Navigate to='/login' />
-    }
+  if (localStorage.getItem('token')) {
+    return props.children;
+  } else {
+    return <Navigate to="/login" />;
+  }
 }
 
 export default Routerprotected

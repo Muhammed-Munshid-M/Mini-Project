@@ -18,6 +18,7 @@ function Login() {
                 toast.success(response.data.message)
                 toast("Redirecting to home page")
                 localStorage.setItem("token",response.data.data)
+                console.log('tokennn'+response.data.data);
                 navigate("/")
             } else {
                 toast.error(response.data.message)
